@@ -1,11 +1,9 @@
-<p-card>
-  <ng-template pTemplate="header">
-    <div class="flex mx-2">
-      <p-checkbox [(ngModel)]="checked" [binary]="true"></p-checkbox>
+<div class="question flex">
+  <p-checkbox [(ngModel)]="checked" [binary]="true"></p-checkbox>
 
-      <p class="ml-2">null vs undefined</p>
-    </div>
-  </ng-template>
+  <p class="ml-2">{{ question.question }}</p>
+</div>
 
-  <p class="answer">This is an answer</p>
-</p-card>
+<p class="answer">{{ question.answer }}</p>
+
+<p-divider></p-divider>

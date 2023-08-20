@@ -1,1 +1,3 @@
-<app-section [header]="'Javascript/Typescript'"></app-section>
+<ng-container *ngFor="let section of sections">
+  <app-section [section]="section" [questions]="questions"></app-section>
+</ng-container>
