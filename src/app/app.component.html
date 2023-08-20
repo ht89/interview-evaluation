@@ -1,7 +1,7 @@
 <ng-container *ngFor="let section of sections">
   <p-panel
     styleClass="mb-4"
-    [header]="section | titlecase"
+    [header]="section | uppercase"
     [toggleable]="toggleable"
   >
     <app-question
