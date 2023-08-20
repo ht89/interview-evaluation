@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
-import { Question } from '../shared/models/question.interface';
+import { Question } from './question.models';
 
 @Component({
   selector: 'app-question',

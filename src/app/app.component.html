@@ -1,3 +1,12 @@
 <ng-container *ngFor="let section of sections">
-  <app-section [section]="section" [questions]="questions"></app-section>
+  <p-panel
+    styleClass="mb-4"
+    [header]="section | titlecase"
+    [toggleable]="toggleable"
+  >
+    <app-question
+      *ngFor="let question of questions[section]"
+      [question]="question"
+    ></app-question>
+  </p-panel>
 </ng-container>

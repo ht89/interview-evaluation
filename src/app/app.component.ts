@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AppService } from './app.service';
-import { Questions } from './shared/models/section.interface';
+import { Questions } from './question/question.models';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +9,7 @@ import { Questions } from './shared/models/section.interface';
 })
 export class AppComponent implements OnInit {
   title = 'interview-evaluation';
+  toggleable = true;
 
   questions: Questions = {};
   sections: string[] = [];
