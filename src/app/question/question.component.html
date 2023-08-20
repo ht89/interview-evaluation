@@ -1,1 +1,11 @@
-<p>question works!</p>
+<p-card>
+  <ng-template pTemplate="header">
+    <div class="flex mx-2">
+      <p-checkbox [(ngModel)]="checked" [binary]="true"></p-checkbox>
+
+      <p class="ml-2">null vs undefined</p>
+    </div>
+  </ng-template>
+
+  <p class="answer">This is an answer</p>
+</p-card>
