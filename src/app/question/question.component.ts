@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
@@ -12,12 +12,8 @@ import { Question } from './question.models';
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss'],
 })
-export class QuestionComponent implements OnChanges {
+export class QuestionComponent {
   @Input() question!: Question;
 
   checked = false;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-  }
 }
