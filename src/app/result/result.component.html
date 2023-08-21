@@ -5,5 +5,21 @@
     <p-tag severity="danger" value="Junior"></p-tag>
   </ng-template>
 
-  <p>content</p>
+  <p-table [value]="results">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col">Section</th>
+        <th scope="col">Level</th>
+        <th scope="col">Reasons</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-result>
+      <tr>
+        <td>{{ result.section }}</td>
+        <td>{{ result.level }}</td>
+        <td>{{ result.reasons }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
 </p-card>
