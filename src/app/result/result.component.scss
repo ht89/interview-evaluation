@@ -1,0 +1,14 @@
+@import 'primeflex/primeflex.scss';
+
+.ie-result {
+  .p-card-header {
+    padding-left: 1.25rem;
+    padding-top: 1.25rem;
+
+    @include styleclass('flex align-items-center gap-2')
+  }
+
+  .title {
+    margin: 0;
+  }
+}

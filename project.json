@@ -8,7 +8,7 @@
     }
   },
   "sourceRoot": "src",
-  "prefix": "app",
+  "prefix": "ie",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",

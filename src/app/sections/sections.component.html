@@ -4,9 +4,9 @@
     [header]="section | uppercase"
     [toggleable]="toggleable"
   >
-    <app-question
+    <ie-question
       *ngFor="let question of questions[section]"
       [question]="question"
-    ></app-question>
+    ></ie-question>
   </p-panel>
 </ng-container>

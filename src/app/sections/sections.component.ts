@@ -6,7 +6,7 @@ import { Questions } from '../question/question.models';
 import { AppService } from '../app.service';
 
 @Component({
-  selector: 'app-sections',
+  selector: 'ie-sections',
   standalone: true,
   imports: [CommonModule, PanelModule, QuestionComponent],
   templateUrl: './sections.component.html',
