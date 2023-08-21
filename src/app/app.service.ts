@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 
-import data from '../assets/questions.json';
-import { Question } from './question/question.models';
+import questionsJson from '../assets/questions.json';
+import { Questions } from './question/question.models';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
-  getQuestions(): Record<string, Question[]> {
-    console.log(data);
+  data: Questions = {};
 
-    return data;
+  getQuestions(): Questions {
+    if (Object.keys(this.data).length > 0) return this.data;
+
+    return questionsJson;
   }
 }
