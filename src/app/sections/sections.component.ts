@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PanelModule } from 'primeng/panel';
 import { QuestionComponent } from '../question/question.component';
-import { Questions } from '../question/question.models';
+import { CorrectQuestion, Questions } from '../question/question.models';
 import { AppService } from '../app.service';
 
 @Component({
@@ -28,5 +28,19 @@ export class SectionsComponent implements OnInit {
 
       this.service.setAnswersPerSection(this.sections, this.questions);
     }
+  }
+
+  onCheckChange(question: CorrectQuestion) {
+    if (Object.keys(question).length === 0) return;
+
+    if (!this.service.correctAnswers[question.section]) {
+      this.service.correctAnswers[question.section] = [question.question];
+
+      return;
+    }
+
+    this.service.correctAnswers[question.section].push(question.question);
+
+    console.log(this.service.correctAnswers, this.service.totalAnswers);
   }
 }

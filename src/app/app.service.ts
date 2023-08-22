@@ -7,8 +7,8 @@ import { Questions } from './question/question.models';
 export class AppService {
   data: Questions = {};
 
-  answersPerSection: Record<string, number> = {};
-  correctAnswersPerSection: Record<string, number> = {};
+  totalAnswers: Record<string, number> = {};
+  correctAnswers: Record<string, Array<string>> = {};
 
   getQuestions(): Questions {
     if (Object.keys(this.data).length > 0) return this.data;
@@ -25,6 +25,6 @@ export class AppService {
       return acc;
     }, {} as Record<string, number>);
 
-    this.answersPerSection = answersPerSection;
+    this.totalAnswers = answersPerSection;
   }
 }

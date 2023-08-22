@@ -2,13 +2,15 @@
   <p-panel
     styleClass="mb-4"
     [header]="
-      (section | uppercase) + ' (' + service.answersPerSection[section] + ')'
+      (section | uppercase) + ' (' + service.totalAnswers[section] + ')'
     "
     [toggleable]="toggleable"
   >
     <ie-question
       *ngFor="let question of questions[section]"
+      [section]="section"
       [question]="question"
+      (checkChange)="onCheckChange($event)"
     ></ie-question>
   </p-panel>
 </ng-container>

@@ -32,6 +32,7 @@ export class ResultComponent implements OnInit {
       Determine the level of each section:
       - If the score is <= 60%, the level is Junior
       - Otherwise, the level is Professional
+      - If the score is 0%, the level is None
       - Score = number of correct answers / total number of answers
       - Give reasons for Junior level of each section
     */
