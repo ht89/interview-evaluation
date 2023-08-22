@@ -1,7 +1,9 @@
 <ng-container *ngFor="let section of sections">
   <p-panel
     styleClass="mb-4"
-    [header]="section | uppercase"
+    [header]="
+      (section | uppercase) + ' (' + service.answersPerSection[section] + ')'
+    "
     [toggleable]="toggleable"
   >
     <ie-question

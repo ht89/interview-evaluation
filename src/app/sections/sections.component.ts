@@ -18,13 +18,15 @@ export class SectionsComponent implements OnInit {
   questions: Questions = {};
   sections: string[] = [];
 
-  private readonly service = inject(AppService);
+  readonly service = inject(AppService);
 
   ngOnInit(): void {
     this.questions = this.service.getQuestions();
 
     if (this.questions) {
       this.sections = Object.keys(this.questions);
+
+      this.service.setAnswersPerSection(this.sections, this.questions);
     }
   }
 }
