@@ -1,10 +1,17 @@
-import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { TableModule } from 'primeng/table';
-import { Result } from './result.models';
+import { Level, Result } from './result.models';
 import { AppService } from '../app.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'ie-result',
@@ -14,13 +21,23 @@ import { AppService } from '../app.service';
   styleUrls: ['./result.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ResultComponent implements OnInit {
+export class ResultComponent implements OnInit, OnDestroy {
   results: Result[] = [];
 
   private readonly service = inject(AppService);
 
+  private notifier$ = new Subject();
+
   ngOnInit(): void {
-    this.setResults();
+    this.service
+      .correctQuestionChange()
+      .pipe(takeUntil(this.notifier$))
+      .subscribe(() => this.setResults());
+  }
+
+  ngOnDestroy(): void {
+    this.notifier$.next(null);
+    this.notifier$.complete();
   }
 
   private setResults(): void {
@@ -28,13 +45,35 @@ export class ResultComponent implements OnInit {
     if (!questions) return;
 
     const sections = Object.keys(questions);
-    /*
-      Determine the level of each section:
-      - If the score is <= 60%, the level is Junior
-      - Otherwise, the level is Professional
-      - If the score is 0%, the level is None
-      - Score = number of correct answers / total number of answers
-      - Give reasons for Junior level of each section
-    */
+
+    const { totalQuestions, correctQuestions } = this.service;
+    sections.every((section) => {
+      if (!correctQuestions[section]) return false;
+
+      const score = correctQuestions[section].length / totalQuestions[section];
+
+      const levelNum =
+        score === 0
+          ? Level.None
+          : score <= 0.6
+          ? Level.Junior
+          : Level.Professional;
+
+      const level = Level[levelNum];
+
+      const idx = this.results.findIndex((item) => item.section === section);
+      if (idx !== -1) {
+        this.results[idx].level = level;
+        this.results[idx].reasons = '';
+      } else {
+        this.results.push({
+          section,
+          level,
+          reasons: '',
+        });
+      }
+
+      return true;
+    });
   }
 }

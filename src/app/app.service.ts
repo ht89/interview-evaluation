@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 
 import questionsJson from '../assets/questions.json';
-import { Questions } from './question/question.models';
+import { CorrectQuestion, Questions } from './question/question.models';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
   data: Questions = {};
 
-  totalAnswers: Record<string, number> = {};
-  correctAnswers: Record<string, Array<string>> = {};
+  totalQuestions: Record<string, number> = {};
+  correctQuestions: Record<string, Array<string>> = {};
+
+  private correctQuestionSubject = new Subject<void>();
 
   getQuestions(): Questions {
     if (Object.keys(this.data).length > 0) return this.data;
@@ -25,6 +28,14 @@ export class AppService {
       return acc;
     }, {} as Record<string, number>);
 
-    this.totalAnswers = answersPerSection;
+    this.totalQuestions = answersPerSection;
+  }
+
+  correctQuestionChange(): Observable<void> {
+    return this.correctQuestionSubject.asObservable();
+  }
+
+  publishCorrectQuestion(): void {
+    this.correctQuestionSubject.next();
   }
 }

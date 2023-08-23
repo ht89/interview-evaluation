@@ -33,14 +33,16 @@ export class SectionsComponent implements OnInit {
   onCheckChange(question: CorrectQuestion) {
     if (Object.keys(question).length === 0) return;
 
-    if (!this.service.correctAnswers[question.section]) {
-      this.service.correctAnswers[question.section] = [question.question];
+    if (!this.service.correctQuestions[question.section]) {
+      this.service.correctQuestions[question.section] = [question.question];
 
       return;
+    } else {
+      this.service.correctQuestions[question.section].push(question.question);
     }
 
-    this.service.correctAnswers[question.section].push(question.question);
+    this.service.publishCorrectQuestion();
 
-    console.log(this.service.correctAnswers, this.service.totalAnswers);
+    console.log(this.service.correctQuestions, this.service.totalQuestions);
   }
 }

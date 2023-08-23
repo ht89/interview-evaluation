@@ -1,4 +1,5 @@
 export enum Level {
+  None,
   Junior,
   Professional,
   Senior,
@@ -6,6 +7,6 @@ export enum Level {
 
 export interface Result {
   section: string;
-  level: Level;
+  level: string;
   reasons: string;
 }
