@@ -29,6 +29,8 @@ export class ResultComponent implements OnInit, OnDestroy {
   private notifier$ = new Subject();
 
   ngOnInit(): void {
+    this.setResults();
+
     this.service
       .correctQuestionChange()
       .pipe(takeUntil(this.notifier$))
@@ -47,15 +49,14 @@ export class ResultComponent implements OnInit, OnDestroy {
     const sections = Object.keys(questions);
 
     const { totalQuestions, correctQuestions } = this.service;
-    sections.every((section) => {
-      if (!correctQuestions[section]) return false;
-
-      const score = correctQuestions[section].length / totalQuestions[section];
+    sections.forEach((section) => {
+      const score =
+        (correctQuestions[section]?.length ?? 0) / totalQuestions[section];
 
       const levelNum =
         score === 0
           ? Level.None
-          : score <= 0.6
+          : score < 0.6
           ? Level.Junior
           : Level.Professional;
 
@@ -72,8 +73,6 @@ export class ResultComponent implements OnInit, OnDestroy {
           reasons: '',
         });
       }
-
-      return true;
     });
   }
 }

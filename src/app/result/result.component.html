@@ -16,7 +16,7 @@
 
     <ng-template pTemplate="body" let-result>
       <tr>
-        <td>{{ result.section }}</td>
+        <td>{{ result.section | uppercase }}</td>
         <td>{{ result.level }}</td>
         <td>{{ result.reasons }}</td>
       </tr>

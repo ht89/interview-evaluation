@@ -42,7 +42,5 @@ export class SectionsComponent implements OnInit {
     }
 
     this.service.publishCorrectQuestion();
-
-    console.log(this.service.correctQuestions, this.service.totalQuestions);
   }
 }
