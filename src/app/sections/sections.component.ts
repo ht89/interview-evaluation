@@ -35,8 +35,6 @@ export class SectionsComponent implements OnInit {
 
     if (!this.service.correctQuestions[question.section]) {
       this.service.correctQuestions[question.section] = [question.question];
-
-      return;
     } else {
       this.service.correctQuestions[question.section].push(question.question);
     }

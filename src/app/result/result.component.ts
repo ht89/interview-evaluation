@@ -23,6 +23,9 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class ResultComponent implements OnInit, OnDestroy {
   results: Result[] = [];
+  overallResult = Level.None;
+
+  Level = Level;
 
   private readonly service = inject(AppService);
 
@@ -53,14 +56,7 @@ export class ResultComponent implements OnInit, OnDestroy {
       const score =
         (correctQuestions[section]?.length ?? 0) / totalQuestions[section];
 
-      const levelNum =
-        score === 0
-          ? Level.None
-          : score < 0.6
-          ? Level.Junior
-          : Level.Professional;
-
-      const level = Level[levelNum];
+      const level = this.setLevel(score);
 
       const idx = this.results.findIndex((item) => item.section === section);
       if (idx !== -1) {
@@ -74,5 +70,35 @@ export class ResultComponent implements OnInit, OnDestroy {
         });
       }
     });
+
+    this.setOverallResult();
+  }
+
+  private setOverallResult(): void {
+    let numOfJuniorLevels = 0;
+    let numOfProfessionalLevels = 0;
+
+    this.results.forEach((result) => {
+      if (result.level === Level.Junior) {
+        numOfJuniorLevels++;
+      } else if (result.level === Level.Professional) {
+        numOfProfessionalLevels++;
+      }
+    });
+
+    if (numOfJuniorLevels === 0 && numOfProfessionalLevels === 0) {
+      return;
+    }
+
+    this.overallResult =
+      numOfJuniorLevels >= numOfProfessionalLevels
+        ? Level.Junior
+        : Level.Professional;
+  }
+
+  private setLevel(score: number): Level {
+    if (score === 0) return Level.None;
+
+    return score < 0.6 ? Level.Junior : Level.Professional;
   }
 }

@@ -2,7 +2,7 @@
   <ng-template pTemplate="header">
     <h3 class="title">Result</h3>
 
-    <p-tag severity="danger" value="Junior"></p-tag>
+    <p-tag severity="danger" [value]="Level[overallResult]"></p-tag>
   </ng-template>
 
   <p-table [value]="results">
@@ -17,7 +17,7 @@
     <ng-template pTemplate="body" let-result>
       <tr>
         <td>{{ result.section | uppercase }}</td>
-        <td>{{ result.level }}</td>
+        <td>{{ Level[result.level] }}</td>
         <td>{{ result.reasons }}</td>
       </tr>
     </ng-template>
