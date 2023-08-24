@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { TableModule } from 'primeng/table';
-import { Level, Result } from './result.models';
+import { Level, LevelColor, Result } from './result.models';
 import { AppService } from '../app.service';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -26,6 +26,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   overallResult = Level.None;
 
   Level = Level;
+  levelColor = LevelColor.None;
 
   private readonly service = inject(AppService);
 
@@ -94,6 +95,15 @@ export class ResultComponent implements OnInit, OnDestroy {
       numOfJuniorLevels >= numOfProfessionalLevels
         ? Level.Junior
         : Level.Professional;
+
+    this.setLevelColor();
+  }
+
+  private setLevelColor(): void {
+    this.levelColor =
+      this.overallResult === Level.Junior
+        ? LevelColor.Junior
+        : LevelColor.Professional;
   }
 
   private setLevel(score: number): Level {

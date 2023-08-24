@@ -2,7 +2,7 @@
   <ng-template pTemplate="header">
     <h3 class="title">Result</h3>
 
-    <p-tag severity="danger" [value]="Level[overallResult]"></p-tag>
+    <p-tag [severity]="levelColor" [value]="Level[overallResult]"></p-tag>
   </ng-template>
 
   <p-table [value]="results">
