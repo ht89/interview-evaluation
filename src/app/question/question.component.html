@@ -2,7 +2,7 @@
   <p-checkbox
     [(ngModel)]="checked"
     [binary]="true"
-    (ngModelChange)="checkChange.emit({section, question: question.question})"
+    (ngModelChange)="checkChange.emit({checked, section, question: question.question})"
   ></p-checkbox>
 
   <p class="ml-2">{{ question.question }}</p>

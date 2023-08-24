@@ -6,6 +6,7 @@ export interface Question {
 }
 
 export interface CorrectQuestion {
+  checked: boolean;
   section: string;
   question: string;
 }

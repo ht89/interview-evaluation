@@ -33,12 +33,21 @@ export class SectionsComponent implements OnInit {
   onCheckChange(question: CorrectQuestion) {
     if (Object.keys(question).length === 0) return;
 
+    if (!question.checked) {
+      if (this.service.correctQuestions[question.section])
+        delete this.service.correctQuestions[question.section];
+    } else {
+      this.addCorrectQuestion(question);
+    }
+
+    this.service.publishCorrectQuestion();
+  }
+
+  private addCorrectQuestion(question: CorrectQuestion): void {
     if (!this.service.correctQuestions[question.section]) {
       this.service.correctQuestions[question.section] = [question.question];
     } else {
       this.service.correctQuestions[question.section].push(question.question);
     }
-
-    this.service.publishCorrectQuestion();
   }
 }
