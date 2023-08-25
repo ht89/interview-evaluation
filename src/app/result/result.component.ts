@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   OnDestroy,
@@ -5,13 +6,13 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
-import { TagModule } from 'primeng/tag';
 import { TableModule } from 'primeng/table';
-import { Level, LevelColor, Result } from './result.models';
-import { AppService } from '../app.service';
+import { TagModule } from 'primeng/tag';
 import { Subject, takeUntil } from 'rxjs';
+import { AppService } from '../app.service';
+import { QuestionResult } from '../question/question.models';
+import { Level, LevelColor, Result } from './result.models';
 
 @Component({
   selector: 'ie-result',
@@ -52,10 +53,21 @@ export class ResultComponent implements OnInit, OnDestroy {
 
     const sections = Object.keys(questions);
 
-    const { totalQuestions, correctQuestions } = this.service;
+    const { totalQuestions, answeredQuestions } = this.service;
+
     sections.forEach((section) => {
-      const score =
-        (correctQuestions[section]?.length ?? 0) / totalQuestions[section];
+      const correctQuestions = Object.keys(answeredQuestions[section]).reduce(
+        (acc, question) => {
+          if (answeredQuestions[section][question] === QuestionResult.Correct) {
+            acc++;
+          }
+
+          return acc;
+        },
+        0
+      );
+
+      const score = correctQuestions / totalQuestions[section];
 
       const level = this.setLevel(score);
 

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,11 +6,10 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
+import { CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
-import { CorrectQuestion, Question } from './question.models';
+import { AnsweredQuestion, Question } from './question.models';
 
 @Component({
   selector: 'ie-question',
@@ -24,7 +24,7 @@ export class QuestionComponent {
 
   @Input() section!: string;
 
-  @Output() checkChange = new EventEmitter<CorrectQuestion>();
+  @Output() checkChange = new EventEmitter<AnsweredQuestion>();
 
   checked = false;
 }

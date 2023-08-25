@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 
-import questionsJson from '../assets/questions.json';
-import { CorrectQuestion, Questions } from './question/question.models';
 import { Observable, Subject } from 'rxjs';
+import questionsJson from '../assets/questions.json';
+import {
+  AnsweredQuestion,
+  QuestionResult,
+  Questions,
+} from './question/question.models';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
   data: Questions = {};
 
   totalQuestions: Record<string, number> = {};
-  correctQuestions: Record<string, Array<string>> = {};
+  answeredQuestions: Record<string, Record<string, QuestionResult>> = {};
 
   private correctQuestionSubject = new Subject<void>();
 
@@ -29,6 +33,32 @@ export class AppService {
     }, {} as Record<string, number>);
 
     this.totalQuestions = answersPerSection;
+  }
+
+  markAllQuestionsIncorrect(sections: string[], questions: Questions): void {
+    sections.forEach((section) => {
+      questions[section].forEach((question) => {
+        const answeredQuestion: AnsweredQuestion = {
+          checked: false,
+          question: question.question,
+          section,
+        };
+
+        this.markQuestion(answeredQuestion, QuestionResult.Incorrect);
+      });
+    });
+  }
+
+  markQuestion(question: AnsweredQuestion, result: QuestionResult): void {
+    if (!this.answeredQuestions[question.section]) {
+      this.answeredQuestions[question.section] = {
+        [question.question]: result,
+      };
+
+      return;
+    }
+
+    this.answeredQuestions[question.section][question.question] = result;
   }
 
   correctQuestionChange(): Observable<void> {

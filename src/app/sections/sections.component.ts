@@ -1,9 +1,13 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import { PanelModule } from 'primeng/panel';
-import { QuestionComponent } from '../question/question.component';
-import { CorrectQuestion, Questions } from '../question/question.models';
 import { AppService } from '../app.service';
+import { QuestionComponent } from '../question/question.component';
+import {
+  AnsweredQuestion,
+  QuestionResult,
+  Questions,
+} from '../question/question.models';
 
 @Component({
   selector: 'ie-sections',
@@ -27,27 +31,20 @@ export class SectionsComponent implements OnInit {
       this.sections = Object.keys(this.questions);
 
       this.service.setAnswersPerSection(this.sections, this.questions);
+
+      this.service.markAllQuestionsIncorrect(this.sections, this.questions);
     }
   }
 
-  onCheckChange(question: CorrectQuestion) {
+  onCheckChange(question: AnsweredQuestion) {
     if (Object.keys(question).length === 0) return;
 
-    if (!question.checked) {
-      if (this.service.correctQuestions[question.section])
-        delete this.service.correctQuestions[question.section];
-    } else {
-      this.addCorrectQuestion(question);
-    }
+    const result = question.checked
+      ? QuestionResult.Correct
+      : QuestionResult.Incorrect;
+
+    this.service.markQuestion(question, result);
 
     this.service.publishCorrectQuestion();
-  }
-
-  private addCorrectQuestion(question: CorrectQuestion): void {
-    if (!this.service.correctQuestions[question.section]) {
-      this.service.correctQuestions[question.section] = [question.question];
-    } else {
-      this.service.correctQuestions[question.section].push(question.question);
-    }
   }
 }

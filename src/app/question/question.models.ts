@@ -5,8 +5,13 @@ export interface Question {
   answer: string;
 }
 
-export interface CorrectQuestion {
+export interface AnsweredQuestion {
   checked: boolean;
   section: string;
   question: string;
+}
+
+export enum QuestionResult {
+  Incorrect,
+  Correct,
 }
