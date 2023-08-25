@@ -52,39 +52,67 @@ export class ResultComponent implements OnInit, OnDestroy {
     if (!questions) return;
 
     const sections = Object.keys(questions);
-
     const { totalQuestions, answeredQuestions } = this.service;
 
     sections.forEach((section) => {
-      const correctQuestions = Object.keys(answeredQuestions[section]).reduce(
-        (acc, question) => {
-          if (answeredQuestions[section][question] === QuestionResult.Correct) {
-            acc++;
-          }
-
-          return acc;
-        },
-        0
-      );
-
-      const score = correctQuestions / totalQuestions[section];
+      const score = this.setScore(totalQuestions, answeredQuestions, section);
 
       const level = this.setLevel(score);
+
+      const reasons = this.setReasons(answeredQuestions, section);
 
       const idx = this.results.findIndex((item) => item.section === section);
       if (idx !== -1) {
         this.results[idx].level = level;
-        this.results[idx].reasons = '';
+        this.results[idx].reasons = reasons;
       } else {
         this.results.push({
           section,
           level,
-          reasons: '',
+          reasons,
         });
       }
     });
 
     this.setOverallResult();
+  }
+
+  private setScore(
+    totalQuestions: Record<string, number>,
+    answeredQuestions: Record<string, Record<string, QuestionResult>>,
+    section: string
+  ): number {
+    const correctQuestions = Object.keys(answeredQuestions[section]).reduce(
+      (acc, question) => {
+        if (answeredQuestions[section][question] === QuestionResult.Correct) {
+          acc++;
+        }
+
+        return acc;
+      },
+      0
+    );
+
+    return correctQuestions / totalQuestions[section];
+  }
+
+  private setReasons(
+    answeredQuestions: Record<string, Record<string, QuestionResult>>,
+    section: string
+  ): string {
+    return Object.keys(answeredQuestions[section]).reduce((acc, question) => {
+      const result = answeredQuestions[section][question];
+
+      if (result === QuestionResult.Incorrect) {
+        if (acc.length === 0) {
+          acc = `No knowledge of ${question}`;
+        } else {
+          acc += `, ${question}`;
+        }
+      }
+
+      return acc;
+    }, '');
   }
 
   private setOverallResult(): void {
