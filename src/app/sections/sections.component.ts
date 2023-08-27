@@ -8,11 +8,12 @@ import {
   QuestionResult,
   Questions,
 } from '../question/question.models';
+import { ResultComponent } from '../result/result.component';
 
 @Component({
   selector: 'ie-sections',
   standalone: true,
-  imports: [CommonModule, PanelModule, QuestionComponent],
+  imports: [CommonModule, PanelModule, QuestionComponent, ResultComponent],
   templateUrl: './sections.component.html',
   styleUrls: ['./sections.component.scss'],
 })
