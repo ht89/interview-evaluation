@@ -7,9 +7,7 @@
 <ng-container *ngFor="let section of sections">
   <p-panel
     styleClass="my-4"
-    [header]="
-      (section | uppercase) + ' (' + service.totalQuestions[section] + ')'
-    "
+    [header]="section | uppercase"
     [toggleable]="toggleable"
   >
     <ie-question
