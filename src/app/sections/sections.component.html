@@ -1,6 +1,12 @@
+<p-button
+  label="Log out"
+  styleClass="p-button-danger block ml-auto"
+  (onClick)="logout()"
+></p-button>
+
 <ng-container *ngFor="let section of sections">
   <p-panel
-    styleClass="mb-4"
+    styleClass="my-4"
     [header]="
       (section | uppercase) + ' (' + service.totalQuestions[section] + ')'
     "

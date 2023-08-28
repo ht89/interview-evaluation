@@ -28,8 +28,8 @@ const routes: Route[] = [
     canActivate: [AuthGuard],
     data: { authGuardPipe: () => authPipe },
   },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' },
+  { path: '', redirectTo: 'questions', pathMatch: 'full' },
+  { path: '**', redirectTo: 'questions' },
 ];
 
 bootstrapApplication(AppComponent, {
