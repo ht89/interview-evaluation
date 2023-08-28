@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { getAuth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
@@ -23,6 +24,7 @@ import { InputTextModule } from 'primeng/inputtext';
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent {
   loginForm = new FormGroup({
@@ -30,24 +32,26 @@ export class LoginComponent {
     password: new FormControl('', Validators.required),
   });
 
+  private readonly auth: Auth = inject(Auth);
+  private readonly router = inject(Router);
+
   submit(
     isValid: boolean,
     value: Partial<{ email: string | null; password: string | null }>
   ): void {
-    console.log(isValid, value);
-
     if (!isValid) return;
 
     const { email, password } = value;
 
     if (!email || !password) return;
 
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user);
+        if (!user) return;
+
+        this.router.navigate(['questions']);
       })
       .catch((error) => {
         const errorCode = error.code;
