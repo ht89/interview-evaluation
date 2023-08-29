@@ -6,6 +6,8 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
+import { ClipboardModule } from 'ngx-clipboard';
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -17,7 +19,14 @@ import { Level, LevelColor, Result } from './result.models';
 @Component({
   selector: 'ie-result',
   standalone: true,
-  imports: [CommonModule, CardModule, TagModule, TableModule],
+  imports: [
+    CommonModule,
+    ClipboardModule,
+    CardModule,
+    TagModule,
+    TableModule,
+    ButtonModule,
+  ],
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.scss'],
   encapsulation: ViewEncapsulation.None,
