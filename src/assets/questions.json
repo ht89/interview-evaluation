@@ -1,167 +1,167 @@
 {
   "javascript / typescript": [
     {
-      "question": "null vs undefined",
+      "id": "null vs undefined",
       "answer": ""
     },
     {
-      "question": "Generic type",
+      "id": "Generic type",
       "answer": ""
     },
     {
-      "question": "Partial type",
+      "id": "Partial type",
       "answer": ""
     },
     {
-      "question": "Required type",
+      "id": "Required type",
       "answer": ""
     },
     {
-      "question": "Union type",
+      "id": "Union type",
       "answer": "function printId(id: number | string) { }"
     },
     {
-      "question": "Intersection type",
+      "id": "Intersection type",
       "answer": "Animal & { honey: boolean }"
     }
   ],
   "html / css": [
     {
-      "question": "CSS transition & how to define it",
+      "id": "CSS transition & how to define it",
       "answer": "Via 'transition' shorthand property or transition-[property], transition-duration,..."
     },
     {
-      "question": "CSS animation & how to define it",
+      "id": "CSS animation & how to define it",
       "answer": "Via @keyframes, animation-name, animation-duration, animation-delay,..."
     },
     {
-      "question": "CSS transitions vs animations",
+      "id": "CSS transitions vs animations",
       "answer": "Transitions have no intermediate steps while animations do. Transitions can run only once while animations can be repeated forever. Transitions require a trigger to run (e.g. mouse hover) while animations do not. Transitions are best for creating a simple change from one state to another while animations are best for creating a complex series of movements."
     },
     {
-      "question": "em vs rem",
+      "id": "em vs rem",
       "answer": ""
     },
     {
-      "question": "When to use !important",
+      "id": "When to use !important",
       "answer": ""
     }
   ],
   "scss": [
     {
-      "question": "Inheritance & how to define it",
+      "id": "Inheritance & how to define it",
       "answer": "@extend is used to share a set of CSS properties from one selector to another"
     },
     {
-      "question": "Mixin & how to define it",
+      "id": "Mixin & how to define it",
       "answer": "@mixin is used to define reusable styles"
     },
     {
-      "question": "Function & how to define it",
+      "id": "Function & how to define it",
       "answer": "Define reusable complex operations on Scss values. @function function-name($param1, $param2) { }"
     },
     {
-      "question": "@extend vs @mixin",
+      "id": "@extend vs @mixin",
       "answer": "@mixin supports arguments while @extend does not. @extend used to express a relationship between semantic classes (code meaning) e.g. .error--serious is a type of error => should extend .error"
     }
   ],
   "angular": [
     {
-      "question": "Directives",
+      "id": "Directives",
       "answer": "A component directive is also called component (component has a template while a directive does not). An attribute directive changes behavior / appearance of an element (e.g. NgStyle, NgClass). A structural directive manipulates the DOM (ngIf, ngFor)"
     },
     {
-      "question": "Guard & how to use it",
+      "id": "Guard & how to use it",
       "answer": "To authorize routes using CanActivate/ CanDetactive"
     },
     {
-      "question": "Interceptor & when to use it",
+      "id": "Interceptor & when to use it",
       "answer": ""
     },
     {
-      "question": "How to send data to a child component",
+      "id": "How to send data to a child component",
       "answer": ""
     },
     {
-      "question": "How to send events to the parent from a child component",
+      "id": "How to send events to the parent from a child component",
       "answer": ""
     },
     {
-      "question": "How to send events to multiple components simultaneously",
+      "id": "How to send events to multiple components simultaneously",
       "answer": ""
     },
     {
-      "question": "Change detection & how to notify Angular of a change",
+      "id": "Change detection & how to notify Angular of a change",
       "answer": "Use NgZone or ChangeDetectorRef"
     },
     {
-      "question": "Standalone component",
+      "id": "Standalone component",
       "answer": ""
     },
     {
-      "question": "Promise vs Observable",
+      "id": "Promise vs Observable",
       "answer": "Promise: promise to call back later when the results are ready => 'one & done'. Observable: normally returned by HTTP methods, stream of events that can be processed with array-like operators"
     },
     {
-      "question": "Unsubscribe from an Observable",
+      "id": "Unsubscribe from an Observable",
       "answer": "One manual way & one automatic way"
     }
   ],
   "rxjs operators": [
     {
-      "question": "map",
+      "id": "map",
       "answer": ""
     },
     {
-      "question": "of",
+      "id": "of",
       "answer": ""
     },
     {
-      "question": "first",
+      "id": "first",
       "answer": "Get 1st value"
     },
     {
-      "question": "last",
+      "id": "last",
       "answer": "Get last value"
     },
     {
-      "question": "single",
+      "id": "single",
       "answer": "Emit only one value from the observable that satisfies a condition. Otherwise, emit an error"
     },
     {
-      "question": "take",
+      "id": "take",
       "answer": "Take only the first x values emitted by the source Observable"
     },
     {
-      "question": "takeUntil",
+      "id": "takeUntil",
       "answer": "Take the values emitted by the source Observable until a notifier Observable emits a value"
     },
     {
-      "question": "takeWhile",
+      "id": "takeWhile",
       "answer": "Take values emitted by the source Observable as long as each value satisfies a condition"
     },
     {
-      "question": "skip",
+      "id": "skip",
       "answer": "Skip the first x values emitted by the source Observable"
     },
     {
-      "question": "skipLast",
+      "id": "skipLast",
       "answer": "Skip the last x values emitted by the source Observable"
     },
     {
-      "question": "skipUntil",
+      "id": "skipUntil",
       "answer": "Skip values emitted by the source Observable until a notifier Observable emits a value"
     },
     {
-      "question": "skipWhile",
+      "id": "skipWhile",
       "answer": "Skip all values emitted by the source Observable as long as a specified condition is true"
     },
     {
-      "question": "throttle",
+      "id": "throttle",
       "answer": "Emit a value from the source Observable, then ignore subsequent values for a duration determined by another Observable, then repeat this process"
     },
     {
-      "question": "throttleTime",
+      "id": "throttleTime",
       "answer": "Emit a value from the source Observable, then ignore subsequent values for duration in milliseconds, then repeat this process"
     }
   ]

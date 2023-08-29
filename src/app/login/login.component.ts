@@ -47,7 +47,6 @@ export class LoginComponent {
 
     signInWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
         if (!user) return;
 

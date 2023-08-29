@@ -40,7 +40,7 @@ export class AppService {
       questions[section].forEach((question) => {
         const answeredQuestion: AnsweredQuestion = {
           checked: false,
-          question: question.question,
+          id: question.id,
           section,
         };
 
@@ -52,13 +52,13 @@ export class AppService {
   markQuestion(question: AnsweredQuestion, result: QuestionResult): void {
     if (!this.answeredQuestions[question.section]) {
       this.answeredQuestions[question.section] = {
-        [question.question]: result,
+        [question.id]: result,
       };
 
       return;
     }
 
-    this.answeredQuestions[question.section][question.question] = result;
+    this.answeredQuestions[question.section][question.id] = result;
   }
 
   correctQuestionChange(): Observable<void> {

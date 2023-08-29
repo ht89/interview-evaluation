@@ -1,14 +1,14 @@
 export type Questions = Record<string, Question[]>;
 
 export interface Question {
-  question: string;
+  id: string;
   answer: string;
 }
 
 export interface AnsweredQuestion {
+  id: string;
   checked: boolean;
   section: string;
-  question: string;
 }
 
 export enum QuestionResult {
