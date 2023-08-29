@@ -2,10 +2,8 @@
 
 .ie-result {
   .p-card-header {
-    padding-left: 1.25rem;
-    padding-top: 1.25rem;
 
-    @include styleclass('flex align-items-center gap-2')
+    @include styleclass('flex align-items-center gap-2 pl-3 pt-3')
   }
 
   .title {
