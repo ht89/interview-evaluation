@@ -12,17 +12,17 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
-  data: Questions = {};
-
   totalQuestionsPerSection: TotalQuestions = {};
   answeredQuestions: AnsweredQuestions = {};
+
+  private data: Questions = {};
 
   private checkChangeSubject = new Subject<void>();
 
   getQuestions(): Questions {
-    if (Object.keys(this.data).length > 0) return this.data;
+    if (Object.keys(this.data).length === 0) this.data = questionsJson;
 
-    return questionsJson;
+    return this.data;
   }
 
   setTotalQuestionsPerSection(sections: string[], questions: Questions): void {
