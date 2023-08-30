@@ -112,16 +112,26 @@ export class ResultComponent implements OnInit, OnDestroy {
     answeredQuestions: AnsweredQuestions,
     section: string
   ): string {
+    const totalQuestionsPerSection = Object.keys(
+      answeredQuestions[section]
+    ).length;
+    let incorrectAnswers = 0;
+
     return Object.keys(answeredQuestions[section]).reduce((acc, question) => {
       const result = answeredQuestions[section][question];
 
       if (result === QuestionResult.Correct) return acc;
+
+      incorrectAnswers++;
 
       if (acc.length === 0) {
         acc = `No knowledge of ${question}`;
       } else {
         acc += `, ${question}`;
       }
+
+      if (incorrectAnswers === totalQuestionsPerSection)
+        acc = 'Candidate could not answer any questions';
 
       return acc;
     }, '');
