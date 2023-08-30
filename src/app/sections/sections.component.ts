@@ -43,7 +43,7 @@ export class SectionsComponent implements OnInit {
     if (this.questions) {
       this.sections = Object.keys(this.questions);
 
-      this.service.setAnswersPerSection(this.sections, this.questions);
+      this.service.setTotalQuestionsPerSection(this.sections, this.questions);
 
       this.service.markAllQuestionsIncorrect(this.sections, this.questions);
     }

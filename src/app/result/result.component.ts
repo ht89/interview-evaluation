@@ -66,12 +66,16 @@ export class ResultComponent implements OnInit, OnDestroy {
 
     if (sections?.length === 0) return;
 
-    const { totalQuestions, answeredQuestions } = this.service;
+    const { totalQuestionsPerSection, answeredQuestions } = this.service;
     let numOfJuniorLevels = 0;
     let numOfProLevels = 0;
 
     sections.forEach((section) => {
-      const score = this.setScore(totalQuestions, answeredQuestions, section);
+      const score = this.setScore(
+        totalQuestionsPerSection,
+        answeredQuestions,
+        section
+      );
       const level = this.setLevel(score);
       const reasons = this.setReasons(answeredQuestions, section);
 

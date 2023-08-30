@@ -14,7 +14,7 @@ import {
 export class AppService {
   data: Questions = {};
 
-  totalQuestions: TotalQuestions = {};
+  totalQuestionsPerSection: TotalQuestions = {};
   answeredQuestions: AnsweredQuestions = {};
 
   private checkChangeSubject = new Subject<void>();
@@ -25,16 +25,16 @@ export class AppService {
     return questionsJson;
   }
 
-  setAnswersPerSection(sections: string[], questions: Questions): void {
+  setTotalQuestionsPerSection(sections: string[], questions: Questions): void {
     if (sections?.length === 0 || Object.keys(questions).length === 0) return;
 
-    const answersPerSection = sections.reduce((acc, section) => {
+    const totalQuestionsPerSection = sections.reduce((acc, section) => {
       acc[section] = questions[section].length;
 
       return acc;
     }, {} as TotalQuestions);
 
-    this.totalQuestions = answersPerSection;
+    this.totalQuestionsPerSection = totalQuestionsPerSection;
   }
 
   markAllQuestionsIncorrect(sections: string[], questions: Questions): void {
