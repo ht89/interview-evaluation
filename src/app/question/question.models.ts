@@ -1,5 +1,9 @@
 export type Questions = Record<string, Question[]>;
 
+export type AnsweredQuestions = Record<string, Record<string, QuestionResult>>;
+
+export type TotalQuestions = Record<string, number>;
+
 export interface Question {
   id: string;
   answer: string;

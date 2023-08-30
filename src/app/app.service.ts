@@ -4,16 +4,18 @@ import { Observable, Subject } from 'rxjs';
 import questionsJson from '../assets/questions.json';
 import {
   AnsweredQuestion,
+  AnsweredQuestions,
   QuestionResult,
   Questions,
+  TotalQuestions,
 } from './question/question.models';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
   data: Questions = {};
 
-  totalQuestions: Record<string, number> = {};
-  answeredQuestions: Record<string, Record<string, QuestionResult>> = {};
+  totalQuestions: TotalQuestions = {};
+  answeredQuestions: AnsweredQuestions = {};
 
   private correctQuestionSubject = new Subject<void>();
 
@@ -30,7 +32,7 @@ export class AppService {
       acc[section] = questions[section].length;
 
       return acc;
-    }, {} as Record<string, number>);
+    }, {} as TotalQuestions);
 
     this.totalQuestions = answersPerSection;
   }

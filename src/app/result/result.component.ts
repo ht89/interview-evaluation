@@ -13,7 +13,11 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { Subject, takeUntil } from 'rxjs';
 import { AppService } from '../app.service';
-import { QuestionResult } from '../question/question.models';
+import {
+  AnsweredQuestions,
+  QuestionResult,
+  TotalQuestions,
+} from '../question/question.models';
 import { Level, LevelColor, Result } from './result.models';
 
 @Component({
@@ -82,8 +86,8 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   private setScore(
-    totalQuestions: Record<string, number>,
-    answeredQuestions: Record<string, Record<string, QuestionResult>>,
+    totalQuestions: TotalQuestions,
+    answeredQuestions: AnsweredQuestions,
     section: string
   ): number {
     const correctQuestions = Object.keys(answeredQuestions[section]).reduce(
@@ -101,18 +105,18 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   private setReasons(
-    answeredQuestions: Record<string, Record<string, QuestionResult>>,
+    answeredQuestions: AnsweredQuestions,
     section: string
   ): string {
     return Object.keys(answeredQuestions[section]).reduce((acc, question) => {
       const result = answeredQuestions[section][question];
 
-      if (result === QuestionResult.Incorrect) {
-        if (acc.length === 0) {
-          acc = `No knowledge of ${question}`;
-        } else {
-          acc += `, ${question}`;
-        }
+      if (result === QuestionResult.Correct) return acc;
+
+      if (acc.length === 0) {
+        acc = `No knowledge of ${question}`;
+      } else {
+        acc += `, ${question}`;
       }
 
       return acc;
@@ -120,9 +124,8 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   private setResult(section: string, level: Level, reasons: string): void {
-    if (this.results?.length === 0) return;
-
     const idx = this.results.findIndex((item) => item.section === section);
+
     if (idx !== -1) {
       this.results[idx].level = level;
       this.results[idx].reasons = reasons;
