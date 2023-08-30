@@ -58,7 +58,7 @@ export class SectionsComponent implements OnInit {
 
     this.service.markQuestion(question, result);
 
-    this.service.publishCorrectQuestion();
+    this.service.notifyCheckChange();
   }
 
   logout(): void {

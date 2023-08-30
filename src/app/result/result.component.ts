@@ -50,7 +50,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.setResults();
 
     this.service
-      .correctQuestionChange()
+      .checkChange()
       .pipe(takeUntil(this.notifier$))
       .subscribe(() => this.setResults());
   }

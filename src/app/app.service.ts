@@ -17,7 +17,7 @@ export class AppService {
   totalQuestions: TotalQuestions = {};
   answeredQuestions: AnsweredQuestions = {};
 
-  private correctQuestionSubject = new Subject<void>();
+  private checkChangeSubject = new Subject<void>();
 
   getQuestions(): Questions {
     if (Object.keys(this.data).length > 0) return this.data;
@@ -63,11 +63,11 @@ export class AppService {
     this.answeredQuestions[question.section][question.id] = result;
   }
 
-  correctQuestionChange(): Observable<void> {
-    return this.correctQuestionSubject.asObservable();
+  checkChange(): Observable<void> {
+    return this.checkChangeSubject.asObservable();
   }
 
-  publishCorrectQuestion(): void {
-    this.correctQuestionSubject.next();
+  notifyCheckChange(): void {
+    this.checkChangeSubject.next();
   }
 }
