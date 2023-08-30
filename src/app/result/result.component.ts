@@ -36,7 +36,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   overallResult = Level.None;
 
   Level = Level;
-  levelColor = LevelColor.None;
+  overallLevelColor = LevelColor.None;
 
   private readonly service = inject(AppService);
 
@@ -58,32 +58,27 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   private setResults(): void {
     const questions = this.service.getQuestions();
-    if (!questions) return;
-
     const sections = Object.keys(questions);
+
+    if (sections?.length === 0) return;
+
     const { totalQuestions, answeredQuestions } = this.service;
+    let numOfJuniorLevels = 0;
+    let numOfProLevels = 0;
 
     sections.forEach((section) => {
       const score = this.setScore(totalQuestions, answeredQuestions, section);
-
       const level = this.setLevel(score);
-
       const reasons = this.setReasons(answeredQuestions, section);
 
-      const idx = this.results.findIndex((item) => item.section === section);
-      if (idx !== -1) {
-        this.results[idx].level = level;
-        this.results[idx].reasons = reasons;
-      } else {
-        this.results.push({
-          section,
-          level,
-          reasons,
-        });
+      this.setResult(section, level, reasons);
+
+      if (level !== Level.None) {
+        level === Level.Junior ? numOfJuniorLevels++ : numOfProLevels++;
       }
     });
 
-    this.setOverallResult();
+    this.setOverallResult(numOfJuniorLevels, numOfProLevels);
   }
 
   private setScore(
@@ -124,32 +119,38 @@ export class ResultComponent implements OnInit, OnDestroy {
     }, '');
   }
 
-  private setOverallResult(): void {
-    let numOfJuniorLevels = 0;
-    let numOfProfessionalLevels = 0;
+  private setResult(section: string, level: Level, reasons: string): void {
+    if (this.results?.length === 0) return;
 
-    this.results.forEach((result) => {
-      if (result.level === Level.Junior) {
-        numOfJuniorLevels++;
-      } else if (result.level === Level.Professional) {
-        numOfProfessionalLevels++;
-      }
-    });
+    const idx = this.results.findIndex((item) => item.section === section);
+    if (idx !== -1) {
+      this.results[idx].level = level;
+      this.results[idx].reasons = reasons;
+    } else {
+      this.results.push({
+        section,
+        level,
+        reasons,
+      });
+    }
+  }
 
-    if (numOfJuniorLevels === 0 && numOfProfessionalLevels === 0) {
+  private setOverallResult(
+    numOfJuniorLevels: number,
+    numOfProLevels: number
+  ): void {
+    if (numOfJuniorLevels === 0 && numOfProLevels === 0) {
       return;
     }
 
     this.overallResult =
-      numOfJuniorLevels >= numOfProfessionalLevels
-        ? Level.Junior
-        : Level.Professional;
+      numOfJuniorLevels >= numOfProLevels ? Level.Junior : Level.Professional;
 
     this.setLevelColor();
   }
 
   private setLevelColor(): void {
-    this.levelColor =
+    this.overallLevelColor =
       this.overallResult === Level.Junior
         ? LevelColor.Junior
         : LevelColor.Professional;
