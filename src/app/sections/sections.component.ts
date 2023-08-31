@@ -10,6 +10,7 @@ import {
   AnsweredQuestion,
   QuestionResult,
   Questions,
+  TotalQuestions,
 } from '../question/question.models';
 import { ResultComponent } from '../result/result.component';
 
@@ -43,9 +44,9 @@ export class SectionsComponent implements OnInit {
     if (this.questions) {
       this.sections = Object.keys(this.questions);
 
-      this.service.setTotalQuestionsPerSection(this.sections, this.questions);
+      this.setTotalQuestionsPerSection(this.sections, this.questions);
 
-      this.service.markAllQuestionsIncorrect(this.sections, this.questions);
+      this.markAllQuestionsIncorrect(this.sections, this.questions);
     }
   }
 
@@ -56,7 +57,7 @@ export class SectionsComponent implements OnInit {
       ? QuestionResult.Correct
       : QuestionResult.Incorrect;
 
-    this.service.markQuestion(question, result);
+    this.markQuestion(question, result);
 
     this.service.notifyCheckChange();
   }
@@ -70,5 +71,49 @@ export class SectionsComponent implements OnInit {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  private setTotalQuestionsPerSection(
+    sections: string[],
+    questions: Questions
+  ): void {
+    if (sections?.length === 0 || Object.keys(questions).length === 0) return;
+
+    const totalQuestionsPerSection = sections.reduce((acc, section) => {
+      acc[section] = questions[section].length;
+
+      return acc;
+    }, {} as TotalQuestions);
+
+    this.service.totalQuestionsPerSection = totalQuestionsPerSection;
+  }
+
+  private markAllQuestionsIncorrect(
+    sections: string[],
+    questions: Questions
+  ): void {
+    sections.forEach((section) => {
+      questions[section].forEach((question) => {
+        const answeredQuestion: AnsweredQuestion = {
+          checked: false,
+          id: question.id,
+          section,
+        };
+
+        this.markQuestion(answeredQuestion, QuestionResult.Incorrect);
+      });
+    });
+  }
+
+  markQuestion(question: AnsweredQuestion, result: QuestionResult): void {
+    if (!this.service.answeredQuestions[question.section]) {
+      this.service.answeredQuestions[question.section] = {
+        [question.id]: result,
+      };
+
+      return;
+    }
+
+    this.service.answeredQuestions[question.section][question.id] = result;
   }
 }
