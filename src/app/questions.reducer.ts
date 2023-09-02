@@ -1,4 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
+import { cloneDeep } from 'lodash';
 import questionsJson from '../assets/questions.json';
 import {
   AnsweredQuestion,
@@ -40,9 +41,9 @@ export const questionsReducer = createReducer(
     };
   }),
   on(QuestionsActions.markAllQuestionsIncorrect, (state) => {
-    const answeredQuestionsPerSection = {
-      ...state.answeredQuestionsPerSection,
-    };
+    const answeredQuestionsPerSection = cloneDeep(
+      state.answeredQuestionsPerSection
+    );
 
     state.sections.forEach((section) => {
       state.questions[section].forEach((question) => {
@@ -64,6 +65,21 @@ export const questionsReducer = createReducer(
       ...state,
       answeredQuestionsPerSection,
     };
+  }),
+  on(QuestionsActions.notifyCheckChange, (state, { answeredQuestion }) => {
+    const answeredQuestionsPerSection = cloneDeep(
+      state.answeredQuestionsPerSection
+    );
+
+    const result = answeredQuestion.checked
+      ? QuestionResult.Correct
+      : QuestionResult.Incorrect;
+
+    markQuestion(answeredQuestion, result, answeredQuestionsPerSection);
+
+    // this.service.notifyCheckChange();
+
+    return { ...state, answeredQuestionsPerSection };
   })
 );
 

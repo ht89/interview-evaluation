@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
+import { notifyCheckChange } from '../questions.actions';
 import { AnsweredQuestion, Question } from './question.models';
 
 @Component({
@@ -24,7 +25,17 @@ export class QuestionComponent {
 
   @Input() section!: string;
 
-  @Output() checkChange = new EventEmitter<AnsweredQuestion>();
-
   checked = false;
+
+  private readonly store = inject(Store);
+
+  onCheckChange(): void {
+    const answeredQuestion: AnsweredQuestion = {
+      checked: this.checked,
+      section: this.section,
+      id: this.question.id,
+    };
+
+    this.store.dispatch(notifyCheckChange({ answeredQuestion }));
+  }
 }

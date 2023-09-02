@@ -8,12 +8,7 @@ import { PanelModule } from 'primeng/panel';
 import { Observable } from 'rxjs';
 import { AppService } from '../app.service';
 import { QuestionComponent } from '../question/question.component';
-import {
-  AnsweredQuestion,
-  QuestionResult,
-  Questions,
-  TotalQuestions,
-} from '../question/question.models';
+import { Questions } from '../question/question.models';
 import {
   markAllQuestionsIncorrect,
   setTotalQuestionsPerSection,
@@ -54,18 +49,6 @@ export class SectionsComponent implements OnInit {
     this.store.dispatch(markAllQuestionsIncorrect());
   }
 
-  onCheckChange(question: AnsweredQuestion) {
-    if (Object.keys(question).length === 0) return;
-
-    const result = question.checked
-      ? QuestionResult.Correct
-      : QuestionResult.Incorrect;
-
-    this.markQuestion(question, result);
-
-    this.service.notifyCheckChange();
-  }
-
   logout(): void {
     this.auth
       .signOut()
@@ -75,32 +58,5 @@ export class SectionsComponent implements OnInit {
       .catch((error) => {
         console.log(error);
       });
-  }
-
-  private setTotalQuestionsPerSection(
-    sections: string[],
-    questions: Questions
-  ): void {
-    if (sections?.length === 0 || Object.keys(questions).length === 0) return;
-
-    const totalQuestionsPerSection = sections.reduce((acc, section) => {
-      acc[section] = questions[section].length;
-
-      return acc;
-    }, {} as TotalQuestions);
-
-    this.service.totalQuestionsPerSection = totalQuestionsPerSection;
-  }
-
-  markQuestion(question: AnsweredQuestion, result: QuestionResult): void {
-    if (!this.service.answeredQuestions[question.section]) {
-      this.service.answeredQuestions[question.section] = {
-        [question.id]: result,
-      };
-
-      return;
-    }
-
-    this.service.answeredQuestions[question.section][question.id] = result;
   }
 }

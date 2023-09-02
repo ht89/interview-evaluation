@@ -15,7 +15,6 @@
         *ngFor="let question of questions[section]"
         [section]="section"
         [question]="question"
-        (checkChange)="onCheckChange($event)"
       ></ie-question>
     </ng-container>
   </p-panel>
