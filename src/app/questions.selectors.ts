@@ -1,5 +1,18 @@
+import { createSelector } from '@ngrx/store';
 import { QuestionsState } from './questions.reducer';
 
-export const selectSections = (state: QuestionsState) => state.sections;
+export interface AppState {
+  questions: QuestionsState;
+}
 
-export const selectQuestions = (state: QuestionsState) => state.questions;
+export const selectQuestionsFeature = (state: AppState) => state.questions;
+
+export const selectQuestions = createSelector(
+  selectQuestionsFeature,
+  (state: QuestionsState) => state.questions
+);
+
+export const selectSections = createSelector(
+  selectQuestionsFeature,
+  (state: QuestionsState) => state.sections
+);

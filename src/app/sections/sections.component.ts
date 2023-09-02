@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AppService } from '../app.service';
 import { QuestionComponent } from '../question/question.component';
 import {
@@ -43,9 +43,9 @@ export class SectionsComponent implements OnInit {
   private readonly store = inject(Store);
 
   ngOnInit(): void {
-    this.questions$ = this.store.select(selectQuestions).pipe(tap(console.log));
+    this.questions$ = this.store.select(selectQuestions);
 
-    this.sections$ = this.store.select(selectSections).pipe(tap(console.log));
+    this.sections$ = this.store.select(selectSections);
 
     // this.setTotalQuestionsPerSection(this.sections, this.questions);
 

@@ -21,6 +21,8 @@ export const initialState: QuestionsState = {
   answeredQuestionsPerSection: {},
 };
 
+export const questionsFeatureKey = 'questions';
+
 export const questionsReducer = createReducer(
   initialState,
   on(QuestionsActions.setTotalQuestionsPerSection, (state) => {
