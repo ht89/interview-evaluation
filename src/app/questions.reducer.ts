@@ -1,9 +1,20 @@
 import { createReducer, on } from '@ngrx/store';
 import questionsJson from '../assets/questions.json';
-import { Questions, TotalQuestions } from './question/question.models';
-import { setTotalQuestionsPerSection } from './questions.actions';
+import {
+  AnsweredQuestions,
+  Questions,
+  TotalQuestions,
+} from './question/question.models';
+import * as QuestionsActions from './questions.actions';
 
-export const initialState = {
+export interface QuestionsState {
+  questions: Questions;
+  sections: string[];
+  totalQuestionsPerSection: TotalQuestions;
+  answeredQuestionsPerSection: AnsweredQuestions;
+}
+
+export const initialState: QuestionsState = {
   questions: questionsJson,
   sections: Object.keys(questionsJson),
   totalQuestionsPerSection: {},
@@ -12,11 +23,9 @@ export const initialState = {
 
 export const questionsReducer = createReducer(
   initialState,
-  on(setTotalQuestionsPerSection, (state) => {
-    const sections = Object.keys(state.questions);
-
-    const totalQuestionsPerSection = sections.reduce((acc, section) => {
-      acc[section] = (state.questions as Questions)[section].length;
+  on(QuestionsActions.setTotalQuestionsPerSection, (state) => {
+    const totalQuestionsPerSection = state.sections.reduce((acc, section) => {
+      acc[section] = state.questions[section].length;
 
       return acc;
     }, {} as TotalQuestions);

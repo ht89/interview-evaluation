@@ -94,6 +94,8 @@ export class ResultComponent implements OnInit, OnDestroy {
     answeredQuestions: AnsweredQuestions,
     section: string
   ): number {
+    if (!answeredQuestions[section]) return 0;
+
     const correctQuestions = Object.keys(answeredQuestions[section]).reduce(
       (acc, question) => {
         if (answeredQuestions[section][question] === QuestionResult.Correct) {
@@ -112,6 +114,8 @@ export class ResultComponent implements OnInit, OnDestroy {
     answeredQuestions: AnsweredQuestions,
     section: string
   ): string {
+    if (!answeredQuestions[section]) return '';
+
     const totalQuestionsPerSection = Object.keys(
       answeredQuestions[section]
     ).length;

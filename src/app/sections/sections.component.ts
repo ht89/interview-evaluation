@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
+import { Observable, tap } from 'rxjs';
 import { AppService } from '../app.service';
 import { QuestionComponent } from '../question/question.component';
 import {
@@ -12,6 +14,7 @@ import {
   Questions,
   TotalQuestions,
 } from '../question/question.models';
+import { selectQuestions, selectSections } from '../questions.selectors';
 import { ResultComponent } from '../result/result.component';
 
 @Component({
@@ -30,24 +33,23 @@ import { ResultComponent } from '../result/result.component';
 export class SectionsComponent implements OnInit {
   toggleable = true;
 
-  questions: Questions = {};
-  sections: string[] = [];
+  questions$!: Observable<Questions>;
+  sections$!: Observable<string[]>;
 
   readonly service = inject(AppService);
 
   private readonly auth = inject(Auth);
   private readonly router = inject(Router);
+  private readonly store = inject(Store);
 
   ngOnInit(): void {
-    this.questions = this.service.getQuestions();
+    this.questions$ = this.store.select(selectQuestions).pipe(tap(console.log));
 
-    if (this.questions) {
-      this.sections = Object.keys(this.questions);
+    this.sections$ = this.store.select(selectSections).pipe(tap(console.log));
 
-      this.setTotalQuestionsPerSection(this.sections, this.questions);
+    // this.setTotalQuestionsPerSection(this.sections, this.questions);
 
-      this.markAllQuestionsIncorrect(this.sections, this.questions);
-    }
+    // this.markAllQuestionsIncorrect(this.sections, this.questions);
   }
 
   onCheckChange(question: AnsweredQuestion) {

@@ -4,18 +4,20 @@
   (onClick)="logout()"
 ></p-button>
 
-<ng-container *ngFor="let section of sections">
+<ng-container *ngFor="let section of sections$ | async">
   <p-panel
     styleClass="my-4"
     [header]="section | uppercase"
     [toggleable]="toggleable"
   >
-    <ie-question
-      *ngFor="let question of questions[section]"
-      [section]="section"
-      [question]="question"
-      (checkChange)="onCheckChange($event)"
-    ></ie-question>
+    <ng-container *ngIf="questions$ | async as questions">
+      <ie-question
+        *ngFor="let question of questions[section]"
+        [section]="section"
+        [question]="question"
+        (checkChange)="onCheckChange($event)"
+      ></ie-question>
+    </ng-container>
   </p-panel>
 </ng-container>
 
