@@ -14,6 +14,10 @@ import {
   Questions,
   TotalQuestions,
 } from '../question/question.models';
+import {
+  markAllQuestionsIncorrect,
+  setTotalQuestionsPerSection,
+} from '../questions.actions';
 import { selectQuestions, selectSections } from '../questions.selectors';
 import { ResultComponent } from '../result/result.component';
 
@@ -44,12 +48,10 @@ export class SectionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.questions$ = this.store.select(selectQuestions);
-
     this.sections$ = this.store.select(selectSections);
 
-    // this.setTotalQuestionsPerSection(this.sections, this.questions);
-
-    // this.markAllQuestionsIncorrect(this.sections, this.questions);
+    this.store.dispatch(setTotalQuestionsPerSection());
+    this.store.dispatch(markAllQuestionsIncorrect());
   }
 
   onCheckChange(question: AnsweredQuestion) {
@@ -88,23 +90,6 @@ export class SectionsComponent implements OnInit {
     }, {} as TotalQuestions);
 
     this.service.totalQuestionsPerSection = totalQuestionsPerSection;
-  }
-
-  private markAllQuestionsIncorrect(
-    sections: string[],
-    questions: Questions
-  ): void {
-    sections.forEach((section) => {
-      questions[section].forEach((question) => {
-        const answeredQuestion: AnsweredQuestion = {
-          checked: false,
-          id: question.id,
-          section,
-        };
-
-        this.markQuestion(answeredQuestion, QuestionResult.Incorrect);
-      });
-    });
   }
 
   markQuestion(question: AnsweredQuestion, result: QuestionResult): void {
