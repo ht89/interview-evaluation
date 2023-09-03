@@ -16,3 +16,19 @@ export const selectSections = createSelector(
   selectQuestionsFeature,
   (state: QuestionsState) => state.sections
 );
+
+export const selectTotalQuestionsPerSection = createSelector(
+  selectQuestionsFeature,
+  (state: QuestionsState) => state.totalQuestionsPerSection
+);
+
+export const selectAnsweredQuestionsPerSection = createSelector(
+  selectQuestionsFeature,
+  (state: QuestionsState) => state.answeredQuestionsPerSection
+);
+
+export const selectResultPageModel = createSelector({
+  sections: selectSections,
+  totalQuestionsPerSection: selectTotalQuestionsPerSection,
+  answeredQuestionsPerSection: selectAnsweredQuestionsPerSection,
+});

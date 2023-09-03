@@ -1,23 +1,17 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { Subject, takeUntil } from 'rxjs';
-import { AppService } from '../app.service';
 import {
   AnsweredQuestions,
   QuestionResult,
   TotalQuestions,
 } from '../question/question.models';
+import { selectResultPageModel } from '../questions.selectors';
 import { Level, LevelColor, Result } from './result.models';
 
 @Component({
@@ -35,49 +29,44 @@ import { Level, LevelColor, Result } from './result.models';
   styleUrls: ['./result.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ResultComponent implements OnInit, OnDestroy {
+export class ResultComponent implements OnInit {
   results: Result[] = [];
   overallResult = Level.None;
 
   Level = Level;
   overallLevelColor = LevelColor.None;
 
-  private readonly service = inject(AppService);
-
-  private notifier$ = new Subject();
+  private readonly store = inject(Store);
 
   ngOnInit(): void {
-    this.setResults();
-
-    this.service
-      .checkChange()
-      .pipe(takeUntil(this.notifier$))
-      .subscribe(() => this.setResults());
+    this.store
+      .select(selectResultPageModel)
+      .subscribe(
+        ({ sections, totalQuestionsPerSection, answeredQuestionsPerSection }) =>
+          this.setResults(
+            sections,
+            totalQuestionsPerSection,
+            answeredQuestionsPerSection
+          )
+      );
   }
 
-  ngOnDestroy(): void {
-    this.notifier$.next(null);
-    this.notifier$.complete();
-  }
-
-  private setResults(): void {
-    const questions = this.service.getQuestions();
-    const sections = Object.keys(questions);
-
-    if (sections?.length === 0) return;
-
-    const { totalQuestionsPerSection, answeredQuestions } = this.service;
+  private setResults(
+    sections: string[],
+    totalQuestionsPerSection: TotalQuestions,
+    answeredQuestionsPerSection: AnsweredQuestions
+  ): void {
     let numOfJuniorLevels = 0;
     let numOfProLevels = 0;
 
     sections.forEach((section) => {
       const score = this.setScore(
         totalQuestionsPerSection,
-        answeredQuestions,
+        answeredQuestionsPerSection,
         section
       );
       const level = this.setLevel(score);
-      const reasons = this.setReasons(answeredQuestions, section);
+      const reasons = this.setReasons(answeredQuestionsPerSection, section);
 
       this.setResult(section, level, reasons);
 

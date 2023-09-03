@@ -77,8 +77,6 @@ export const questionsReducer = createReducer(
 
     markQuestion(answeredQuestion, result, answeredQuestionsPerSection);
 
-    // this.service.notifyCheckChange();
-
     return { ...state, answeredQuestionsPerSection };
   })
 );
