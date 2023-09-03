@@ -6,7 +6,6 @@ import { Store } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { Observable } from 'rxjs';
-import { AppService } from '../app.service';
 import { QuestionComponent } from '../question/question.component';
 import { Questions } from '../question/question.models';
 import {
@@ -34,8 +33,6 @@ export class SectionsComponent implements OnInit {
 
   questions$!: Observable<Questions>;
   sections$!: Observable<string[]>;
-
-  readonly service = inject(AppService);
 
   private readonly auth = inject(Auth);
   private readonly router = inject(Router);
