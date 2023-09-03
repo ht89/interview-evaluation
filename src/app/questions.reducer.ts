@@ -13,23 +13,23 @@ import * as QuestionsActions from './questions.actions';
 export interface QuestionsState {
   questions: Questions;
   sections: string[];
-  totalQuestionsPerSection: TotalQuestions;
-  answeredQuestionsPerSection: AnsweredQuestions;
+  totalQuestions: TotalQuestions;
+  answeredQuestions: AnsweredQuestions;
 }
 
 export const initialState: QuestionsState = {
   questions: questionsJson,
   sections: Object.keys(questionsJson),
-  totalQuestionsPerSection: {},
-  answeredQuestionsPerSection: {},
+  totalQuestions: {},
+  answeredQuestions: {},
 };
 
 export const questionsFeatureKey = 'questions';
 
 export const questionsReducer = createReducer(
   initialState,
-  on(QuestionsActions.setTotalQuestionsPerSection, (state) => {
-    const totalQuestionsPerSection = state.sections.reduce((acc, section) => {
+  on(QuestionsActions.setTotalQuestions, (state) => {
+    const totalQuestions = state.sections.reduce((acc, section) => {
       acc[section] = state.questions[section].length;
 
       return acc;
@@ -37,13 +37,11 @@ export const questionsReducer = createReducer(
 
     return {
       ...state,
-      totalQuestionsPerSection,
+      totalQuestions,
     };
   }),
   on(QuestionsActions.markAllQuestionsIncorrect, (state) => {
-    const answeredQuestionsPerSection = cloneDeep(
-      state.answeredQuestionsPerSection
-    );
+    const answeredQuestions = cloneDeep(state.answeredQuestions);
 
     state.sections.forEach((section) => {
       state.questions[section].forEach((question) => {
@@ -56,28 +54,26 @@ export const questionsReducer = createReducer(
         markQuestion(
           answeredQuestion,
           QuestionResult.Incorrect,
-          answeredQuestionsPerSection
+          answeredQuestions
         );
       });
     });
 
     return {
       ...state,
-      answeredQuestionsPerSection,
+      answeredQuestions,
     };
   }),
   on(QuestionsActions.notifyCheckChange, (state, { answeredQuestion }) => {
-    const answeredQuestionsPerSection = cloneDeep(
-      state.answeredQuestionsPerSection
-    );
+    const answeredQuestions = cloneDeep(state.answeredQuestions);
 
     const result = answeredQuestion.checked
       ? QuestionResult.Correct
       : QuestionResult.Incorrect;
 
-    markQuestion(answeredQuestion, result, answeredQuestionsPerSection);
+    markQuestion(answeredQuestion, result, answeredQuestions);
 
-    return { ...state, answeredQuestionsPerSection };
+    return { ...state, answeredQuestions: answeredQuestions };
   })
 );
 

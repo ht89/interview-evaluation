@@ -10,7 +10,7 @@ import { QuestionComponent } from '../question/question.component';
 import { Questions } from '../question/question.models';
 import {
   markAllQuestionsIncorrect,
-  setTotalQuestionsPerSection,
+  setTotalQuestions,
 } from '../questions.actions';
 import { selectQuestions, selectSections } from '../questions.selectors';
 import { ResultComponent } from '../result/result.component';
@@ -42,7 +42,7 @@ export class SectionsComponent implements OnInit {
     this.questions$ = this.store.select(selectQuestions);
     this.sections$ = this.store.select(selectSections);
 
-    this.store.dispatch(setTotalQuestionsPerSection());
+    this.store.dispatch(setTotalQuestions());
     this.store.dispatch(markAllQuestionsIncorrect());
   }
 

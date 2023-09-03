@@ -11,7 +11,7 @@ import {
   QuestionResult,
   TotalQuestions,
 } from '../question/question.models';
-import { selectResultPageModel } from '../questions.selectors';
+import { ResultPageModel, selectResultPageModel } from '../questions.selectors';
 import { Level, LevelColor, Result } from './result.models';
 
 @Component({
@@ -41,32 +41,21 @@ export class ResultComponent implements OnInit {
   ngOnInit(): void {
     this.store
       .select(selectResultPageModel)
-      .subscribe(
-        ({ sections, totalQuestionsPerSection, answeredQuestionsPerSection }) =>
-          this.setResults(
-            sections,
-            totalQuestionsPerSection,
-            answeredQuestionsPerSection
-          )
-      );
+      .subscribe((data) => this.setResults(data));
   }
 
-  private setResults(
-    sections: string[],
-    totalQuestionsPerSection: TotalQuestions,
-    answeredQuestionsPerSection: AnsweredQuestions
-  ): void {
+  private setResults(data: ResultPageModel): void {
     let numOfJuniorLevels = 0;
     let numOfProLevels = 0;
 
-    sections.forEach((section) => {
+    data.sections.forEach((section) => {
       const score = this.setScore(
-        totalQuestionsPerSection,
-        answeredQuestionsPerSection,
+        data.totalQuestions,
+        data.answeredQuestions,
         section
       );
       const level = this.setLevel(score);
-      const reasons = this.setReasons(answeredQuestionsPerSection, section);
+      const reasons = this.setReasons(data.answeredQuestions, section);
 
       this.setResult(section, level, reasons);
 
