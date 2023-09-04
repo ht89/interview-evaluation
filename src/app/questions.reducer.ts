@@ -51,11 +51,7 @@ export const questionsReducer = createReducer(
           section,
         };
 
-        markQuestion(
-          answeredQuestion,
-          QuestionResult.Incorrect,
-          answeredQuestions
-        );
+        markQuestion(answeredQuestion, answeredQuestions);
       });
     });
 
@@ -67,28 +63,27 @@ export const questionsReducer = createReducer(
   on(QuestionsActions.notifyCheckChange, (state, { answeredQuestion }) => {
     const answeredQuestions = cloneDeep(state.answeredQuestions);
 
-    const result = answeredQuestion.checked
-      ? QuestionResult.Correct
-      : QuestionResult.Incorrect;
+    markQuestion(answeredQuestion, answeredQuestions);
 
-    markQuestion(answeredQuestion, result, answeredQuestions);
-
-    return { ...state, answeredQuestions: answeredQuestions };
+    return { ...state, answeredQuestions };
   })
 );
 
 const markQuestion = (
-  question: AnsweredQuestion,
-  result: QuestionResult,
+  answeredQuestion: AnsweredQuestion,
   answeredQuestions: AnsweredQuestions
 ): void => {
-  if (!answeredQuestions[question.section]) {
-    answeredQuestions[question.section] = {
-      [question.id]: result,
+  const result = answeredQuestion.checked
+    ? QuestionResult.Correct
+    : QuestionResult.Incorrect;
+
+  if (!answeredQuestions[answeredQuestion.section]) {
+    answeredQuestions[answeredQuestion.section] = {
+      [answeredQuestion.id]: result,
     };
 
     return;
   }
 
-  answeredQuestions[question.section][question.id] = result;
+  answeredQuestions[answeredQuestion.section][answeredQuestion.id] = result;
 };
