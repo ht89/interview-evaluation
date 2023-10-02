@@ -10,14 +10,14 @@ import {
 } from '../question/question.models';
 import * as QuestionsActions from './questions.actions';
 
-export interface QuestionsState {
+interface State {
   questions: Questions;
   sections: string[];
   totalQuestions: TotalQuestions;
   answeredQuestions: AnsweredQuestions;
 }
 
-export const initialState: QuestionsState = {
+const initialState: State = {
   questions: questionsJson,
   sections: Object.keys(questionsJson),
   totalQuestions: {},
