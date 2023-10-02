@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
-import { notifyCheckChange } from '../questions.actions';
+import { notifyCheckChange } from '../state/questions.actions';
 import { AnsweredQuestion, Question } from './question.models';
 
 @Component({

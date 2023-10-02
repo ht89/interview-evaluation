@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { AnsweredQuestion } from './question/question.models';
+import { AnsweredQuestion } from '../question/question.models';
 
 export const setTotalQuestions = createAction(
   '[Sections Component] Set Total Questions'

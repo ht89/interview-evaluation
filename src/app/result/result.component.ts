@@ -11,7 +11,10 @@ import {
   QuestionResult,
   TotalQuestions,
 } from '../question/question.models';
-import { ResultPageModel, selectResultPageModel } from '../questions.selectors';
+import {
+  ResultPageModel,
+  selectResultPageModel,
+} from '../state/questions.selectors';
 import { Level, LevelColor, Result } from './result.models';
 
 @Component({

@@ -8,12 +8,12 @@ import { PanelModule } from 'primeng/panel';
 import { Observable } from 'rxjs';
 import { QuestionComponent } from '../question/question.component';
 import { Questions } from '../question/question.models';
+import { ResultComponent } from '../result/result.component';
 import {
   markAllQuestionsIncorrect,
   setTotalQuestions,
-} from '../questions.actions';
-import { selectQuestions, selectSections } from '../questions.selectors';
-import { ResultComponent } from '../result/result.component';
+} from '../state/questions.actions';
+import { selectQuestions, selectSections } from '../state/questions.reducer';
 
 @Component({
   selector: 'ie-sections',
