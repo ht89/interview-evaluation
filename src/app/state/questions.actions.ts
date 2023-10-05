@@ -4,14 +4,14 @@ import { AnsweredQuestion } from '../question/question.models';
 export const SectionsComponentActions = createActionGroup({
   source: 'Sections Component',
   events: {
-    'Set Total Questions': emptyProps(),
-    'Mark All Questions Incorrect': emptyProps(),
+    setTotalQuestions: emptyProps(),
+    markAllQuestionsIncorrect: emptyProps(),
   },
 });
 
 export const QuestionComponentActions = createActionGroup({
   source: 'Question Component',
   events: {
-    'Notify Check Change': props<{ answeredQuestion: AnsweredQuestion }>(),
+    notifyCheckChange: props<{ answeredQuestion: AnsweredQuestion }>(),
   },
 });
