@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
-import { notifyCheckChange } from '../state/questions.actions';
+import { QuestionComponentActions } from '../state/questions.actions';
 import { AnsweredQuestion, Question } from './question.models';
 
 @Component({
@@ -36,6 +36,8 @@ export class QuestionComponent {
       id: this.question.id,
     };
 
-    this.store.dispatch(notifyCheckChange({ answeredQuestion }));
+    this.store.dispatch(
+      QuestionComponentActions.notifyCheckChange({ answeredQuestion })
+    );
   }
 }

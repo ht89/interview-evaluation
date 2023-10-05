@@ -8,7 +8,10 @@ import {
   Questions,
   TotalQuestions,
 } from '../question/question.models';
-import * as QuestionsActions from './questions.actions';
+import {
+  QuestionComponentActions,
+  SectionsComponentActions,
+} from './questions.actions';
 
 interface State {
   questions: Questions;
@@ -28,7 +31,7 @@ export const questionsFeature = createFeature({
   name: 'questions',
   reducer: createReducer(
     initialState,
-    on(QuestionsActions.setTotalQuestions, (state) => {
+    on(SectionsComponentActions.setTotalQuestions, (state) => {
       const totalQuestions = state.sections.reduce((acc, section) => {
         acc[section] = state.questions[section].length;
 
@@ -40,7 +43,7 @@ export const questionsFeature = createFeature({
         totalQuestions,
       };
     }),
-    on(QuestionsActions.markAllQuestionsIncorrect, (state) => {
+    on(SectionsComponentActions.markAllQuestionsIncorrect, (state) => {
       const answeredQuestions = cloneDeep(state.answeredQuestions);
 
       state.sections.forEach((section) => {
@@ -60,13 +63,16 @@ export const questionsFeature = createFeature({
         answeredQuestions,
       };
     }),
-    on(QuestionsActions.notifyCheckChange, (state, { answeredQuestion }) => {
-      const answeredQuestions = cloneDeep(state.answeredQuestions);
+    on(
+      QuestionComponentActions.notifyCheckChange,
+      (state, { answeredQuestion }) => {
+        const answeredQuestions = cloneDeep(state.answeredQuestions);
 
-      markQuestion(answeredQuestion, answeredQuestions);
+        markQuestion(answeredQuestion, answeredQuestions);
 
-      return { ...state, answeredQuestions };
-    })
+        return { ...state, answeredQuestions };
+      }
+    )
   ),
 });
 

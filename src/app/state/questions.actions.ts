@@ -1,15 +1,17 @@
-import { createAction, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { AnsweredQuestion } from '../question/question.models';
 
-export const setTotalQuestions = createAction(
-  '[Sections Component] Set Total Questions'
-);
+export const SectionsComponentActions = createActionGroup({
+  source: 'Sections Component',
+  events: {
+    'Set Total Questions': emptyProps(),
+    'Mark All Questions Incorrect': emptyProps(),
+  },
+});
 
-export const markAllQuestionsIncorrect = createAction(
-  '[Sections Component] Mark All Questions Incorrect'
-);
-
-export const notifyCheckChange = createAction(
-  '[Question Component] Notify Check Change',
-  props<{ answeredQuestion: AnsweredQuestion }>()
-);
+export const QuestionComponentActions = createActionGroup({
+  source: 'Question Component',
+  events: {
+    'Notify Check Change': props<{ answeredQuestion: AnsweredQuestion }>(),
+  },
+});

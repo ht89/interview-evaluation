@@ -9,10 +9,8 @@ import { Observable } from 'rxjs';
 import { QuestionComponent } from '../question/question.component';
 import { Questions } from '../question/question.models';
 import { ResultComponent } from '../result/result.component';
-import {
-  markAllQuestionsIncorrect,
-  setTotalQuestions,
-} from '../state/questions.actions';
+
+import { SectionsComponentActions } from '../state/questions.actions';
 import { selectQuestions, selectSections } from '../state/questions.reducer';
 
 @Component({
@@ -42,8 +40,8 @@ export class SectionsComponent implements OnInit {
     this.questions$ = this.store.select(selectQuestions);
     this.sections$ = this.store.select(selectSections);
 
-    this.store.dispatch(setTotalQuestions());
-    this.store.dispatch(markAllQuestionsIncorrect());
+    this.store.dispatch(SectionsComponentActions.setTotalQuestions());
+    this.store.dispatch(SectionsComponentActions.markAllQuestionsIncorrect());
   }
 
   logout(): void {
